@@ -146,7 +146,7 @@ button:hover {
   max-height: 920px;
   border-radius: 14px;
   overflow: hidden;
-  background: #000;
+  background: #fff8f0;
 }
 
 #carousel:fullscreen,
@@ -172,6 +172,11 @@ button:hover {
 .slide img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+#carousel:fullscreen .slide img,
+#carousel:-webkit-full-screen .slide img {
   object-fit: contain;
 }
 
