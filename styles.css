@@ -32,9 +32,9 @@ body {
 }
 
 .container {
-  width: min(1400px, 96vw);
+  width: min(1500px, 96vw);
   margin: 0 auto;
-  padding: 2.5rem 0 2rem;
+  padding: 2rem 0 1.5rem;
 }
 
 .hero {
@@ -130,32 +130,15 @@ button:hover {
 }
 
 .carousel-card {
-  padding: 1rem;
-}
-
-.carousel-tools {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.75rem;
+  padding: clamp(0.8rem, 1.2vw, 1.1rem);
 }
 
 .carousel {
   position: relative;
-  height: 78vh;
-  min-height: 620px;
-  max-height: 920px;
+  height: clamp(460px, 74vh, 900px);
   border-radius: 14px;
   overflow: hidden;
-  background: #fff8f0;
-}
-
-#carousel:fullscreen,
-#carousel:-webkit-full-screen {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  border-radius: 0;
-  background: #000;
+  background: #141414;
 }
 
 .slide {
@@ -172,12 +155,8 @@ button:hover {
 .slide img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-}
-
-#carousel:fullscreen .slide img,
-#carousel:-webkit-full-screen .slide img {
   object-fit: contain;
+  object-position: center;
 }
 
 .empty-state {
@@ -210,7 +189,8 @@ button:hover {
 
 @media (max-width: 700px) {
   .container {
-    padding-top: 1.5rem;
+    width: min(96vw, 760px);
+    padding-top: 1.2rem;
   }
 
   .upload-card,
@@ -219,8 +199,26 @@ button:hover {
   }
 
   .carousel {
-    height: 52vh;
-    min-height: 320px;
-    max-height: none;
+    height: clamp(300px, 57vh, 520px);
+  }
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  .container {
+    width: 94vw;
+  }
+
+  .carousel {
+    height: clamp(420px, 66vh, 760px);
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+  }
+
+  .carousel {
+    height: clamp(250px, 52vh, 420px);
   }
 }

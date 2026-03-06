@@ -6,7 +6,6 @@ const carousel = document.getElementById("carousel");
 const dots = document.getElementById("dots");
 const emptyState = document.getElementById("emptyState");
 const playMusicBtn = document.getElementById("playMusicBtn");
-const fullscreenBtn = document.getElementById("fullscreenBtn");
 const bgMusic = document.getElementById("bgMusic");
 const statusText = document.getElementById("statusText");
 
@@ -183,41 +182,6 @@ playMusicBtn.addEventListener("click", async () => {
     playMusicBtn.textContent = "No se pudo reproducir";
   }
 });
-
-function updateFullscreenButton() {
-  const fullElement = document.fullscreenElement || document.webkitFullscreenElement;
-  const isFullscreen = fullElement === carousel;
-  fullscreenBtn.textContent = isFullscreen ? "Salir de pantalla grande" : "Ver en pantalla grande";
-}
-
-fullscreenBtn.addEventListener("click", async () => {
-  const fullElement = document.fullscreenElement || document.webkitFullscreenElement;
-  const isFullscreen = fullElement === carousel;
-
-  try {
-    if (isFullscreen) {
-      if (document.exitFullscreen) {
-        await document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      }
-    } else {
-      if (carousel.requestFullscreen) {
-        await carousel.requestFullscreen();
-      } else if (carousel.webkitRequestFullscreen) {
-        carousel.webkitRequestFullscreen();
-      } else {
-        throw new Error("Fullscreen no soportado");
-      }
-    }
-  } catch {
-    setStatus("Tu navegador bloqueó pantalla completa.", true);
-  }
-});
-
-document.addEventListener("fullscreenchange", updateFullscreenButton);
-document.addEventListener("webkitfullscreenchange", updateFullscreenButton);
-updateFullscreenButton();
 
 fetchPhotos();
 setInterval(fetchPhotos, REFRESH_MS);
