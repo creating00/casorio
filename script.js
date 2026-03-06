@@ -3,9 +3,11 @@ const REFRESH_MS = 10000;
 
 const photoInput = document.getElementById("photoInput");
 const carousel = document.getElementById("carousel");
+const carouselCard = document.getElementById("carouselCard");
 const dots = document.getElementById("dots");
 const emptyState = document.getElementById("emptyState");
 const playMusicBtn = document.getElementById("playMusicBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
 const bgMusic = document.getElementById("bgMusic");
 const statusText = document.getElementById("statusText");
 
@@ -182,6 +184,26 @@ playMusicBtn.addEventListener("click", async () => {
     playMusicBtn.textContent = "No se pudo reproducir";
   }
 });
+
+function updateFullscreenButton() {
+  const isFullscreen = document.fullscreenElement === carouselCard;
+  fullscreenBtn.textContent = isFullscreen ? "Salir de pantalla grande" : "Ver en pantalla grande";
+}
+
+fullscreenBtn.addEventListener("click", async () => {
+  try {
+    if (document.fullscreenElement === carouselCard) {
+      await document.exitFullscreen();
+    } else {
+      await carouselCard.requestFullscreen();
+    }
+  } catch {
+    setStatus("Tu navegador bloqueó pantalla completa.", true);
+  }
+});
+
+document.addEventListener("fullscreenchange", updateFullscreenButton);
+updateFullscreenButton();
 
 fetchPhotos();
 setInterval(fetchPhotos, REFRESH_MS);

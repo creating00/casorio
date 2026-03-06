@@ -32,7 +32,7 @@ body {
 }
 
 .container {
-  width: min(1060px, 92vw);
+  width: min(1400px, 96vw);
   margin: 0 auto;
   padding: 2.5rem 0 2rem;
 }
@@ -133,9 +133,17 @@ button:hover {
   padding: 1rem;
 }
 
+.carousel-tools {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
 .carousel {
   position: relative;
-  height: min(65vh, 500px);
+  height: 78vh;
+  min-height: 620px;
+  max-height: 920px;
   border-radius: 14px;
   overflow: hidden;
   background: #fff8f0;
@@ -197,6 +205,8 @@ button:hover {
   }
 
   .carousel {
-    height: 48vh;
+    height: 52vh;
+    min-height: 320px;
+    max-height: none;
   }
 }
