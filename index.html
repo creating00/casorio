@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boda Cristiana - Recuerdos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-glow" aria-hidden="true"></div>
+
+  <main class="container">
+    <header class="hero">
+      <p class="verse">"Y sobre todas estas cosas vestíos de amor" - Colosenses 3:14</p>
+      <h1>Recuerdos de Nuestra Boda Cristiana</h1>
+      <p class="subtitle">Sube tus fotos y se mostrarán automáticamente en este carrusel con música.</p>
+    </header>
+
+    <section class="upload-card">
+      <h2>Compartir Fotos</h2>
+      <label class="upload-btn" for="photoInput">Seleccionar fotos</label>
+      <input id="photoInput" type="file" accept="image/*" multiple />
+      <p class="hint">Puedes seleccionar varias imágenes a la vez.</p>
+      <p class="status" id="statusText">Conectado al servidor.</p>
+      <div class="actions">
+        <button id="playMusicBtn" type="button">Reproducir música</button>
+      </div>
+      <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3304f67fcf.mp3?filename=romantic-wedding-piano-115701.mp3" type="audio/mpeg" />
+      </audio>
+    </section>
+
+    <section class="carousel-card">
+      <div class="carousel" id="carousel">
+        <div class="empty-state" id="emptyState">
+          <p>Aún no hay fotos. Sube la primera imagen para iniciar el carrusel.</p>
+        </div>
+      </div>
+      <div class="dots" id="dots"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

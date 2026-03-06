@@ -1,0 +1,172 @@
+﻿const AUTO_SLIDE_MS = 3200;
+const REFRESH_MS = 10000;
+
+const photoInput = document.getElementById("photoInput");
+const carousel = document.getElementById("carousel");
+const dots = document.getElementById("dots");
+const emptyState = document.getElementById("emptyState");
+const playMusicBtn = document.getElementById("playMusicBtn");
+const bgMusic = document.getElementById("bgMusic");
+const statusText = document.getElementById("statusText");
+
+let photos = [];
+let currentIndex = 0;
+let intervalId = null;
+
+function setStatus(message, isError = false) {
+  statusText.textContent = message;
+  statusText.classList.toggle("error", isError);
+}
+
+function renderCarousel() {
+  carousel.querySelectorAll(".slide").forEach((node) => node.remove());
+  dots.innerHTML = "";
+
+  if (photos.length === 0) {
+    emptyState.style.display = "grid";
+    stopAutoSlide();
+    return;
+  }
+
+  emptyState.style.display = "none";
+
+  photos.forEach((src, index) => {
+    const slide = document.createElement("div");
+    slide.className = `slide ${index === currentIndex ? "active" : ""}`;
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = `Foto de boda ${index + 1}`;
+
+    slide.appendChild(img);
+    carousel.appendChild(slide);
+
+    const dot = document.createElement("div");
+    dot.className = `dot ${index === currentIndex ? "active" : ""}`;
+    dots.appendChild(dot);
+  });
+
+  if (photos.length > 1) {
+    startAutoSlide();
+  } else {
+    stopAutoSlide();
+  }
+}
+
+function goToSlide(index) {
+  const slides = carousel.querySelectorAll(".slide");
+  const dotNodes = dots.querySelectorAll(".dot");
+
+  slides.forEach((slide, i) => {
+    slide.classList.toggle("active", i === index);
+  });
+
+  dotNodes.forEach((dot, i) => {
+    dot.classList.toggle("active", i === index);
+  });
+}
+
+function nextSlide() {
+  if (photos.length < 2) {
+    return;
+  }
+
+  currentIndex = (currentIndex + 1) % photos.length;
+  goToSlide(currentIndex);
+}
+
+function startAutoSlide() {
+  stopAutoSlide();
+  intervalId = setInterval(nextSlide, AUTO_SLIDE_MS);
+}
+
+function stopAutoSlide() {
+  if (intervalId) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+}
+
+async function fetchPhotos() {
+  try {
+    const response = await fetch("api.php", { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("No se pudo cargar la galería");
+    }
+
+    const data = await response.json();
+    if (!Array.isArray(data.images)) {
+      throw new Error("Respuesta inválida del servidor");
+    }
+
+    const previousLength = photos.length;
+    photos = data.images;
+
+    if (photos.length === 0) {
+      currentIndex = 0;
+    } else if (photos.length > previousLength) {
+      currentIndex = previousLength;
+    } else if (currentIndex >= photos.length) {
+      currentIndex = 0;
+    }
+
+    renderCarousel();
+  } catch (error) {
+    setStatus(error.message || "Error al cargar imágenes", true);
+  }
+}
+
+async function uploadPhotos(files) {
+  const formData = new FormData();
+  files.forEach((file) => formData.append("photos[]", file));
+
+  const response = await fetch("api.php", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok || !data.ok) {
+    const message = data.error || "Error al subir archivos";
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+photoInput.addEventListener("change", async (event) => {
+  const files = Array.from(event.target.files || []).filter((file) => file.type.startsWith("image/"));
+
+  if (files.length === 0) {
+    return;
+  }
+
+  setStatus("Subiendo fotos al servidor...");
+
+  try {
+    const result = await uploadPhotos(files);
+    await fetchPhotos();
+    setStatus(`Subida completa: ${result.saved} foto(s) guardadas en servidor.`);
+
+    bgMusic.play().catch(() => {
+      // El navegador puede bloquear autoplay hasta interacción del usuario.
+    });
+  } catch (error) {
+    setStatus(error.message || "No se pudo subir", true);
+  }
+
+  event.target.value = "";
+});
+
+playMusicBtn.addEventListener("click", async () => {
+  try {
+    await bgMusic.play();
+    playMusicBtn.textContent = "Música activa";
+  } catch {
+    playMusicBtn.textContent = "No se pudo reproducir";
+  }
+});
+
+fetchPhotos();
+setInterval(fetchPhotos, REFRESH_MS);
