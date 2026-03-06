@@ -3,7 +3,6 @@ const REFRESH_MS = 10000;
 
 const photoInput = document.getElementById("photoInput");
 const carousel = document.getElementById("carousel");
-const carouselCard = document.getElementById("carouselCard");
 const dots = document.getElementById("dots");
 const emptyState = document.getElementById("emptyState");
 const playMusicBtn = document.getElementById("playMusicBtn");
@@ -187,13 +186,13 @@ playMusicBtn.addEventListener("click", async () => {
 
 function updateFullscreenButton() {
   const fullElement = document.fullscreenElement || document.webkitFullscreenElement;
-  const isFullscreen = fullElement === carouselCard;
+  const isFullscreen = fullElement === carousel;
   fullscreenBtn.textContent = isFullscreen ? "Salir de pantalla grande" : "Ver en pantalla grande";
 }
 
 fullscreenBtn.addEventListener("click", async () => {
   const fullElement = document.fullscreenElement || document.webkitFullscreenElement;
-  const isFullscreen = fullElement === carouselCard;
+  const isFullscreen = fullElement === carousel;
 
   try {
     if (isFullscreen) {
@@ -203,10 +202,10 @@ fullscreenBtn.addEventListener("click", async () => {
         document.webkitExitFullscreen();
       }
     } else {
-      if (carouselCard.requestFullscreen) {
-        await carouselCard.requestFullscreen();
-      } else if (carouselCard.webkitRequestFullscreen) {
-        carouselCard.webkitRequestFullscreen();
+      if (carousel.requestFullscreen) {
+        await carousel.requestFullscreen();
+      } else if (carousel.webkitRequestFullscreen) {
+        carousel.webkitRequestFullscreen();
       } else {
         throw new Error("Fullscreen no soportado");
       }
