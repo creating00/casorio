@@ -8,6 +8,9 @@ const emptyState = document.getElementById("emptyState");
 const playMusicBtn = document.getElementById("playMusicBtn");
 const bgMusic = document.getElementById("bgMusic");
 const statusText = document.getElementById("statusText");
+const uploadCard = document.getElementById("uploadCard");
+const toggleUploadBtn = document.getElementById("toggleUploadBtn");
+const showUploadBtn = document.getElementById("showUploadBtn");
 
 let photos = [];
 let currentIndex = 0;
@@ -181,6 +184,15 @@ playMusicBtn.addEventListener("click", async () => {
   } catch {
     playMusicBtn.textContent = "No se pudo reproducir";
   }
+});
+
+toggleUploadBtn.addEventListener("click", () => {
+  document.body.classList.add("upload-hidden");
+});
+
+showUploadBtn.addEventListener("click", () => {
+  document.body.classList.remove("upload-hidden");
+  uploadCard.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 fetchPhotos();

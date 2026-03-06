@@ -72,6 +72,7 @@ h1 {
 }
 
 .upload-card {
+  position: relative;
   padding: 1.25rem;
   margin-bottom: 1rem;
 }
@@ -127,6 +128,40 @@ button:hover {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.mini-toggle {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.72rem;
+  line-height: 1;
+  background: #7a5a3c;
+  color: #fff;
+}
+
+.mini-fab {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 30;
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.72rem;
+  background: #7a5a3c;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  display: none;
+}
+
+.upload-hidden #uploadCard {
+  display: none;
+}
+
+.upload-hidden .mini-fab {
+  display: inline-block;
 }
 
 .carousel-card {
@@ -205,6 +240,13 @@ button:hover {
 
   .carousel {
     height: clamp(300px, 57vh, 520px);
+  }
+
+  .mini-fab {
+    right: 0.7rem;
+    bottom: 0.7rem;
+    font-size: 0.68rem;
+    padding: 0.4rem 0.65rem;
   }
 }
 

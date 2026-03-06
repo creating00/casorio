@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
   <div class="background-glow" aria-hidden="true"></div>
@@ -19,7 +19,8 @@
       <p class="subtitle">Sube tus fotos y se mostrarán automáticamente en este carrusel con música.</p>
     </header>
 
-    <section class="upload-card">
+    <section class="upload-card" id="uploadCard">
+      <button id="toggleUploadBtn" class="mini-toggle" type="button" title="Ocultar sección">Ocultar</button>
       <h2>Compartir Fotos</h2>
       <label class="upload-btn" for="photoInput">Seleccionar fotos</label>
       <input id="photoInput" type="file" accept="image/*" multiple />
@@ -32,6 +33,7 @@
         <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3304f67fcf.mp3?filename=romantic-wedding-piano-115701.mp3" type="audio/mpeg" />
       </audio>
     </section>
+    <button id="showUploadBtn" class="mini-fab" type="button" title="Mostrar sección de compartir fotos">Mostrar sección</button>
 
     <section class="carousel-card">
       <div class="carousel" id="carousel">
@@ -43,6 +45,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
