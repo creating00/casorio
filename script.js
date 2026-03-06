@@ -90,11 +90,19 @@ function stopAutoSlide() {
 async function fetchPhotos() {
   try {
     const response = await fetch("api.php", { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error("No se pudo cargar la galería");
+    const raw = await response.text();
+    let data = null;
+
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      throw new Error("El servidor devolvio HTML/error en lugar de JSON. Revisa api.php en Hostinger.");
     }
 
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || "No se pudo cargar la galería");
+    }
+
     if (!Array.isArray(data.images)) {
       throw new Error("Respuesta inválida del servidor");
     }
@@ -125,7 +133,14 @@ async function uploadPhotos(files) {
     body: formData
   });
 
-  const data = await response.json().catch(() => ({}));
+  const raw = await response.text();
+  let data = {};
+
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    throw new Error("El servidor devolvio HTML/error en lugar de JSON al subir.");
+  }
 
   if (!response.ok || !data.ok) {
     const message = data.error || "Error al subir archivos";
