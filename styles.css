@@ -1,11 +1,11 @@
 ﻿:root {
-  --bg-top: #f5e7dc;
-  --bg-bottom: #e1c8b8;
-  --card: rgba(255, 247, 241, 0.9);
-  --text: #4c2333;
-  --accent: #7a1f3f;
-  --accent-2: #b68f73;
-  --shadow: 0 16px 40px rgba(78, 26, 45, 0.18);
+  --bg-top: #5b2d3e;
+  --bg-bottom: #2f1621;
+  --card: rgba(255, 245, 236, 0.92);
+  --text: #4b1f30;
+  --accent: #6f1737;
+  --accent-2: #b48769;
+  --shadow: 0 16px 40px rgba(83, 21, 45, 0.2);
 }
 
 * {
@@ -25,9 +25,9 @@ body {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.45), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(122, 31, 63, 0.18), transparent 40%),
-    radial-gradient(circle at 50% 90%, rgba(182, 143, 115, 0.2), transparent 35%);
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.12), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(111, 23, 55, 0.32), transparent 42%),
+    radial-gradient(circle at 50% 90%, rgba(180, 135, 105, 0.16), transparent 36%);
   pointer-events: none;
 }
 
@@ -117,7 +117,7 @@ button:hover {
 .status {
   margin: 0.3rem 0 0.9rem;
   font-weight: 500;
-  color: #7a1f3f;
+  color: #6f1737;
 }
 
 .status.error {
@@ -138,7 +138,7 @@ button:hover {
   padding: 0.35rem 0.7rem;
   font-size: 0.72rem;
   line-height: 1;
-  background: #7a1f3f;
+  background: #6f1737;
   color: #fff;
 }
 
@@ -150,7 +150,7 @@ button:hover {
   border-radius: 999px;
   padding: 0.45rem 0.8rem;
   font-size: 0.72rem;
-  background: #7a1f3f;
+  background: #6f1737;
   color: #fff;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
   display: none;
@@ -173,7 +173,7 @@ button:hover {
   height: clamp(460px, 74vh, 900px);
   border-radius: 14px;
   overflow: hidden;
-  background: #2a1018;
+  background: #260d16;
 }
 
 .slide {
@@ -206,7 +206,7 @@ button:hover {
   place-items: center;
   text-align: center;
   padding: 1rem;
-  color: #7e5b4a;
+  color: #7a5443;
 }
 
 .dots {
