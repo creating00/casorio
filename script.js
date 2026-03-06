@@ -186,16 +186,30 @@ playMusicBtn.addEventListener("click", async () => {
 });
 
 function updateFullscreenButton() {
-  const isFullscreen = document.fullscreenElement === carouselCard;
+  const fullElement = document.fullscreenElement || document.webkitFullscreenElement;
+  const isFullscreen = fullElement === carouselCard;
   fullscreenBtn.textContent = isFullscreen ? "Salir de pantalla grande" : "Ver en pantalla grande";
 }
 
 fullscreenBtn.addEventListener("click", async () => {
+  const fullElement = document.fullscreenElement || document.webkitFullscreenElement;
+  const isFullscreen = fullElement === carouselCard;
+
   try {
-    if (document.fullscreenElement === carouselCard) {
-      await document.exitFullscreen();
+    if (isFullscreen) {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
     } else {
-      await carouselCard.requestFullscreen();
+      if (carouselCard.requestFullscreen) {
+        await carouselCard.requestFullscreen();
+      } else if (carouselCard.webkitRequestFullscreen) {
+        carouselCard.webkitRequestFullscreen();
+      } else {
+        throw new Error("Fullscreen no soportado");
+      }
     }
   } catch {
     setStatus("Tu navegador bloqueó pantalla completa.", true);
@@ -203,6 +217,7 @@ fullscreenBtn.addEventListener("click", async () => {
 });
 
 document.addEventListener("fullscreenchange", updateFullscreenButton);
+document.addEventListener("webkitfullscreenchange", updateFullscreenButton);
 updateFullscreenButton();
 
 fetchPhotos();
