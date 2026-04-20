@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visor - Nuestra Boda</title>
+  <meta name="description" content="Visor de fotos en vivo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="viewer-body">
+  <div class="viewer-controls" id="viewerControls">
+    <a href="index.html" class="glass-btn" title="Volver al inicio">&larr; Volver</a>
+    <button id="playMusicBtn" class="glass-btn">🎵 Música On/Off</button>
+    <button id="fullscreenBtn" class="glass-btn">⛶ Pantalla Completa</button>
+  </div>
+  
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3304f67fcf.mp3?filename=romantic-wedding-piano-115701.mp3" type="audio/mpeg" />
+  </audio>
+
+  <main class="carousel-fullscreen">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="empty-message" id="emptyMessage">
+        <div class="spinner"></div>
+        <p>Esperando fotos mágicas...</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="viewer.js"></script>
+</body>
+</html>

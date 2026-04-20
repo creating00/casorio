@@ -1,50 +1,38 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boda Cristiana - Recuerdos</title>
+  <title>Boda - Portal de Fotos</title>
+  <meta name="description" content="Portal de fotos de nuestra boda cristiana. Selecciona para subir fotos o ver el carrusel." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <div class="background-glow" aria-hidden="true"></div>
-
-  <main class="container">
-    <header class="hero">
+<body class="landing-body">
+  <div class="dynamic-bg"></div>
+  <div class="glass-container">
+    <header class="home-header">
+      <h1 class="elegant-title">Nuestra Boda</h1>
       <p class="verse">"Y sobre todas estas cosas vestíos de amor" - Colosenses 3:14</p>
-      <h1>Recuerdos de Nuestra Boda</h1>
-      <p class="subtitle">Sube tus fotos y se mostrarán automáticamente en este carrusel con música.</p>
     </header>
-
-    <section class="upload-card" id="uploadCard">
-      <button id="toggleUploadBtn" class="mini-toggle" type="button" title="Ocultar sección">Ocultar</button>
-      <h2>Compartir Fotos</h2>
-      <label class="upload-btn" for="photoInput">Seleccionar fotos</label>
-      <input id="photoInput" type="file" accept="image/*" multiple />
-      <p class="hint">Puedes seleccionar varias imágenes a la vez.</p>
-      <p class="status" id="statusText">Conectado al servidor.</p>
-      <div class="actions">
-        <button id="playMusicBtn" type="button">Reproducir música</button>
-      </div>
-      <audio id="bgMusic" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3304f67fcf.mp3?filename=romantic-wedding-piano-115701.mp3" type="audio/mpeg" />
-      </audio>
-    </section>
-    <button id="showUploadBtn" class="mini-fab" type="button" title="Mostrar sección de compartir fotos">Mostrar sección</button>
-
-    <section class="carousel-card">
-      <div class="carousel" id="carousel">
-        <div class="empty-state" id="emptyState">
-          <p>Aún no hay fotos. Sube la primera imagen para iniciar el carrusel.</p>
+    <div class="module-cards">
+      <a href="upload.html" class="module-card">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         </div>
-      </div>
-      <div class="dots" id="dots"></div>
-    </section>
-  </main>
-
-  <script src="script.js?v=3"></script>
+        <h2>Subir Fotos</h2>
+        <p>Comparte tus mejores momentos capturados con nosotros.</p>
+      </a>
+      <a href="viewer.html" class="module-card">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h2>Visor de Fotos</h2>
+        <p>Disfruta de la presentación de fotos y recuerdos.</p>
+      </a>
+    </div>
+  </div>
 </body>
 </html>
