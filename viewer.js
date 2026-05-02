@@ -6,10 +6,25 @@ const emptyMessage = document.getElementById('emptyMessage');
 const playMusicBtn = document.getElementById('playMusicBtn');
 const bgMusic = document.getElementById('bgMusic');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
+const TRANSITION_CLASSES = ['fx-fade', 'fx-zoom', 'fx-slide-left', 'fx-slide-up', 'fx-blur', 'fx-tilt'];
 
 let carouselItems = [];
 let currentIndex = 0;
 let intervalId = null;
+
+function getRandomTransitionClass() {
+  return TRANSITION_CLASSES[Math.floor(Math.random() * TRANSITION_CLASSES.length)];
+}
+
+function resetTransitionClasses(slide) {
+  TRANSITION_CLASSES.forEach(className => slide.classList.remove(className));
+}
+
+function activateSlide(slide) {
+  resetTransitionClasses(slide);
+  slide.classList.add(getRandomTransitionClass());
+  slide.classList.add('active');
+}
 
 function renderCarousel() {
   carouselTrack.querySelectorAll('.slide').forEach(node => node.remove());
@@ -24,7 +39,7 @@ function renderCarousel() {
 
   carouselItems.forEach((item, index) => {
     const slide = document.createElement('div');
-    slide.className = `slide ${index === currentIndex ? 'active' : ''}`;
+    slide.className = 'slide';
 
     if (item.type === 'greeting') {
       slide.classList.add('message-slide');
@@ -37,6 +52,10 @@ function renderCarousel() {
     }
 
     carouselTrack.appendChild(slide);
+
+    if (index === currentIndex) {
+      activateSlide(slide);
+    }
   });
 
   if (carouselItems.length > 1) {
@@ -75,12 +94,13 @@ function nextSlide() {
   const slides = carouselTrack.querySelectorAll('.slide');
   if (slides[currentIndex]) {
     slides[currentIndex].classList.remove('active');
+    resetTransitionClasses(slides[currentIndex]);
   }
   
   currentIndex = (currentIndex + 1) % carouselItems.length;
   
   if (slides[currentIndex]) {
-    slides[currentIndex].classList.add('active');
+    activateSlide(slides[currentIndex]);
   }
 }
 

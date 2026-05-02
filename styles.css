@@ -664,7 +664,9 @@ h1, h2, h3 {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1.03);
+  filter: blur(10px);
+  transition: opacity 1.35s cubic-bezier(0.4, 0, 0.2, 1), transform 1.35s cubic-bezier(0.4, 0, 0.2, 1), filter 1.35s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -673,7 +675,63 @@ h1, h2, h3 {
 
 .slide.active {
   opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
   z-index: 10;
+}
+
+.slide.fx-fade {
+  animation: slideFadeIn 1.35s ease both;
+}
+
+.slide.fx-zoom {
+  animation: slideZoomIn 1.45s cubic-bezier(0.18, 0.89, 0.32, 1.2) both;
+}
+
+.slide.fx-slide-left {
+  animation: slideFromLeft 1.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.slide.fx-slide-up {
+  animation: slideFromBottom 1.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.slide.fx-blur {
+  animation: slideBlurBloom 1.55s ease both;
+}
+
+.slide.fx-tilt {
+  animation: slideTiltIn 1.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideZoomIn {
+  from { opacity: 0; transform: scale(1.18); filter: blur(8px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes slideFromLeft {
+  from { opacity: 0; transform: translateX(-7vw) scale(1.04); filter: blur(5px); }
+  to { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+
+@keyframes slideFromBottom {
+  from { opacity: 0; transform: translateY(7vh) scale(1.03); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes slideBlurBloom {
+  from { opacity: 0; transform: scale(0.98); filter: blur(22px) brightness(1.25); }
+  to { opacity: 1; transform: scale(1); filter: blur(0) brightness(1); }
+}
+
+@keyframes slideTiltIn {
+  from { opacity: 0; transform: perspective(900px) rotateZ(-2deg) rotateY(8deg) scale(1.06); filter: blur(6px); }
+  to { opacity: 1; transform: perspective(900px) rotateZ(0) rotateY(0) scale(1); filter: blur(0); }
 }
 
 .slide img {
