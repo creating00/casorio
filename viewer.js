@@ -1,4 +1,4 @@
-const AUTO_SLIDE_MS = 5000;
+const AUTO_SLIDE_MS = 4000;
 const REFRESH_MS = 8000;
 
 const carouselTrack = document.getElementById('carouselTrack');
