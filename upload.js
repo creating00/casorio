@@ -64,7 +64,6 @@ function uploadFiles(formData) {
     const xhr = new XMLHttpRequest();
 
     xhr.open('POST', 'api.php');
-    xhr.responseType = 'json';
 
     xhr.upload.addEventListener('progress', (event) => {
       if (!event.lengthComputable) {
@@ -75,7 +74,14 @@ function uploadFiles(formData) {
     });
 
     xhr.addEventListener('load', () => {
-      const data = xhr.response;
+      let data = null;
+
+      try {
+        data = JSON.parse(xhr.responseText || '{}');
+      } catch (error) {
+        reject(new Error('El servidor no devolvio una respuesta valida. Revisa api.php.'));
+        return;
+      }
 
       if (xhr.status < 200 || xhr.status >= 300 || !data || !data.ok) {
         reject(new Error((data && data.error) || 'Error al subir'));
@@ -87,7 +93,11 @@ function uploadFiles(formData) {
     });
 
     xhr.addEventListener('error', () => {
-      reject(new Error('Error de conexion'));
+      reject(new Error('No se pudo conectar con api.php. Abre la pagina desde el servidor PHP, no con file://.'));
+    });
+
+    xhr.addEventListener('abort', () => {
+      reject(new Error('La subida fue cancelada.'));
     });
 
     xhr.send(formData);
