@@ -1,6 +1,10 @@
 const dropZone = document.getElementById('dropZone');
 const photoInput = document.getElementById('photoInput');
 const statusBox = document.getElementById('uploadStatus');
+const statusText = document.getElementById('uploadStatusText');
+const progressBox = document.getElementById('uploadProgress');
+const progressBar = document.getElementById('uploadProgressBar');
+const progressLabel = document.getElementById('uploadProgressLabel');
 
 // Drag and drop events
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -34,9 +38,60 @@ photoInput.addEventListener('change', function() {
 });
 
 function showStatus(msg, isError = false) {
-  statusBox.textContent = msg;
+  statusText.textContent = msg;
   statusBox.className = `status-box ${isError ? 'error' : 'success'}`;
   statusBox.classList.remove('hidden');
+}
+
+function setProgress(percent) {
+  const safePercent = Math.max(0, Math.min(100, percent));
+  progressBar.style.width = `${safePercent}%`;
+  progressLabel.textContent = `${Math.round(safePercent)}%`;
+}
+
+function showProgress() {
+  progressBox.classList.remove('hidden');
+  progressBox.setAttribute('aria-hidden', 'false');
+}
+
+function hideProgress() {
+  progressBox.classList.add('hidden');
+  progressBox.setAttribute('aria-hidden', 'true');
+}
+
+function uploadFiles(formData) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'api.php');
+    xhr.responseType = 'json';
+
+    xhr.upload.addEventListener('progress', (event) => {
+      if (!event.lengthComputable) {
+        return;
+      }
+
+      setProgress((event.loaded / event.total) * 100);
+    });
+
+    xhr.addEventListener('load', () => {
+      const data = xhr.response;
+
+      if (xhr.status < 200 || xhr.status >= 300 || !data || !data.ok) {
+        reject(new Error((data && data.error) || 'Error al subir'));
+        return;
+      }
+
+      setProgress(100);
+      resolve(data);
+    });
+
+    xhr.addEventListener('error', () => {
+      reject(new Error('Error de conexion'));
+    });
+
+    xhr.send(formData);
+  });
 }
 
 async function handleFiles(files) {
@@ -48,26 +103,15 @@ async function handleFiles(files) {
 
   showStatus(`Subiendo ${imageFiles.length} foto(s)...`, false);
   statusBox.classList.remove('success'); // just grey while uploading
+  showProgress();
+  setProgress(0);
 
   try {
-    const response = await fetch('api.php', {
-      method: 'POST',
-      body: formData
-    });
-
-    let data;
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error('Respuesta inválida del servidor.');
-    }
-
-    if (!response.ok || !data.ok) {
-      throw new Error(data.error || 'Error al subir');
-    }
+    const data = await uploadFiles(formData);
 
     showStatus(`¡Éxito! ${data.saved} foto(s) guardadas. Ya aparecerán en el visor.`);
   } catch (error) {
+    hideProgress();
     showStatus(error.message || "Error de conexión", true);
   }
 }

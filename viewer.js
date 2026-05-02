@@ -7,14 +7,14 @@ const playMusicBtn = document.getElementById('playMusicBtn');
 const bgMusic = document.getElementById('bgMusic');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
 
-let photos = [];
+let carouselItems = [];
 let currentIndex = 0;
 let intervalId = null;
 
 function renderCarousel() {
   carouselTrack.querySelectorAll('.slide').forEach(node => node.remove());
 
-  if (photos.length === 0) {
+  if (carouselItems.length === 0) {
     emptyMessage.style.display = 'flex';
     stopAutoSlide();
     return;
@@ -22,34 +22,62 @@ function renderCarousel() {
 
   emptyMessage.style.display = 'none';
 
-  photos.forEach((src, index) => {
+  carouselItems.forEach((item, index) => {
     const slide = document.createElement('div');
     slide.className = `slide ${index === currentIndex ? 'active' : ''}`;
-    
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `Boda Photo ${index + 1}`;
-    
-    slide.appendChild(img);
+
+    if (item.type === 'greeting') {
+      slide.classList.add('message-slide');
+      slide.appendChild(createMessageCard(item));
+    } else {
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = `Boda Photo ${index + 1}`;
+      slide.appendChild(img);
+    }
+
     carouselTrack.appendChild(slide);
   });
 
-  if (photos.length > 1) {
+  if (carouselItems.length > 1) {
     startAutoSlide();
   } else {
     stopAutoSlide();
   }
 }
 
+function createMessageCard(item) {
+  const card = document.createElement('article');
+  card.className = `message-card message-theme-${item.theme || 'rose'}`;
+
+  const kicker = document.createElement('span');
+  kicker.className = 'message-kicker';
+  kicker.textContent = 'Saludo para los novios';
+
+  const message = document.createElement('p');
+  message.className = 'message-text';
+  message.textContent = item.message;
+
+  const author = document.createElement('p');
+  author.className = 'message-author';
+  author.textContent = item.author ? `- ${item.author}` : '- Con amor';
+
+  card.appendChild(kicker);
+  card.appendChild(message);
+  card.appendChild(author);
+
+  return card;
+}
+
 function nextSlide() {
-  if (photos.length < 2) return;
+  if (carouselItems.length < 2) return;
   
   const slides = carouselTrack.querySelectorAll('.slide');
   if (slides[currentIndex]) {
     slides[currentIndex].classList.remove('active');
   }
   
-  currentIndex = (currentIndex + 1) % photos.length;
+  currentIndex = (currentIndex + 1) % carouselItems.length;
   
   if (slides[currentIndex]) {
     slides[currentIndex].classList.add('active');
@@ -78,13 +106,16 @@ async function fetchPhotos() {
       return;
     }
 
-    const previousLength = photos.length;
-    photos = data.images;
+    const incomingItems = Array.isArray(data.items)
+      ? data.items
+      : (Array.isArray(data.images) ? data.images.map(src => ({ type: 'image', src })) : []);
+    const previousLength = carouselItems.length;
+    carouselItems = incomingItems;
 
-    if (photos.length === 0) {
+    if (carouselItems.length === 0) {
       currentIndex = 0;
-    } else if (photos.length > previousLength) {
-      // New photos arrived, jump to the first new one
+    } else if (carouselItems.length > previousLength) {
+      // New photos or greetings arrived, jump to the first new one
       currentIndex = previousLength;
     }
 

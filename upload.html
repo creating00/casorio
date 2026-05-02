@@ -30,7 +30,13 @@
     </div>
 
     <div id="uploadStatus" class="status-box hidden">
-      <!-- Status messages and progress -->
+      <p id="uploadStatusText"></p>
+      <div id="uploadProgress" class="progress-box hidden" aria-hidden="true">
+        <div class="progress-track">
+          <div id="uploadProgressBar" class="progress-fill"></div>
+        </div>
+        <p id="uploadProgressLabel" class="progress-label">0%</p>
+      </div>
     </div>
   </main>
 
