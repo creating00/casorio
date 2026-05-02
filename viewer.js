@@ -1,4 +1,5 @@
 const AUTO_SLIDE_MS = 7000;
+const GREETING_SLIDE_MS = 10000;
 const REFRESH_MS = 8000;
 
 const carouselTrack = document.getElementById('carouselTrack');
@@ -10,7 +11,7 @@ const TRANSITION_CLASSES = ['fx-fade', 'fx-zoom', 'fx-slide-left', 'fx-slide-up'
 
 let carouselItems = [];
 let currentIndex = 0;
-let intervalId = null;
+let timeoutId = null;
 
 function getRandomTransitionClass() {
   return TRANSITION_CLASSES[Math.floor(Math.random() * TRANSITION_CLASSES.length)];
@@ -102,17 +103,26 @@ function nextSlide() {
   if (slides[currentIndex]) {
     activateSlide(slides[currentIndex]);
   }
+
+  scheduleAutoSlide();
 }
 
 function startAutoSlide() {
   stopAutoSlide();
-  intervalId = setInterval(nextSlide, AUTO_SLIDE_MS);
+  scheduleAutoSlide();
+}
+
+function scheduleAutoSlide() {
+  stopAutoSlide();
+  const currentItem = carouselItems[currentIndex];
+  const delay = currentItem && currentItem.type === 'greeting' ? GREETING_SLIDE_MS : AUTO_SLIDE_MS;
+  timeoutId = setTimeout(nextSlide, delay);
 }
 
 function stopAutoSlide() {
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+    timeoutId = null;
   }
 }
 
