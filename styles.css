@@ -172,6 +172,27 @@ h1, h2, h3 {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.closed-panel {
+  max-width: 860px;
+}
+
+.closed-panel h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+}
+
+.closed-panel p:not(.admin-eyebrow) {
+  max-width: 620px;
+  margin: 0 auto;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.closed-action {
+  margin-top: 2rem;
+  text-decoration: none;
+}
+
 .upload-header h2 {
   font-size: 2.2rem;
   margin-bottom: 0.5rem;

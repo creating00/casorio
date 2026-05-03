@@ -24,6 +24,7 @@ set_exception_handler(function ($e) {
 
 $uploadDir = __DIR__ . DIRECTORY_SEPARATOR . 'uploads';
 $greetingsFile = __DIR__ . DIRECTORY_SEPARATOR . 'greetings.json';
+$submissionsClosed = true;
 $maxFileSize = 8 * 1024 * 1024;
 $allowedMimeToExt = array(
     'image/jpeg' => 'jpg',
@@ -190,6 +191,10 @@ if ($action === 'delete') {
 }
 
 if ($action === 'greeting') {
+    if ($submissionsClosed) {
+        send_json(403, array('ok' => false, 'error' => 'El envio de saludos ya esta cerrado. Gracias por compartir este momento.'));
+    }
+
     $message = clean_text(isset($_POST['message']) ? $_POST['message'] : '', 420);
     $author = clean_text(isset($_POST['author']) ? $_POST['author'] : '', 70);
     $theme = clean_text(isset($_POST['theme']) ? $_POST['theme'] : 'rose', 20);
@@ -214,6 +219,10 @@ if ($action === 'greeting') {
     save_greetings($greetingsFile, $greetings);
 
     send_json(200, array('ok' => true, 'saved' => true));
+}
+
+if ($submissionsClosed) {
+    send_json(403, array('ok' => false, 'error' => 'La carga de fotos ya esta cerrada. Gracias por compartir este momento.'));
 }
 
 if (!isset($_FILES['photos'])) {

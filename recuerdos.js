@@ -87,7 +87,9 @@ function showPreviousMemory() {
 }
 
 async function loadMemories() {
+  memorySlide.innerHTML = '';
   memoryEmpty.classList.remove('hidden');
+  memoryEmpty.querySelector('p').textContent = 'Cargando fotos y saludos...';
 
   try {
     const response = await fetch('api.php', { cache: 'no-store' });
@@ -111,13 +113,17 @@ async function loadMemories() {
 
 showMemoriesBtn.addEventListener('click', () => {
   memoriesIntro.classList.add('hidden');
+  memoriesIntro.style.display = 'none';
   memoriesGallery.classList.remove('hidden');
+  memoriesGallery.style.display = 'grid';
   loadMemories();
 });
 
 backToThanksBtn.addEventListener('click', () => {
   memoriesGallery.classList.add('hidden');
+  memoriesGallery.style.display = 'none';
   memoriesIntro.classList.remove('hidden');
+  memoriesIntro.style.display = '';
 });
 
 nextMemoryBtn.addEventListener('click', showNextMemory);

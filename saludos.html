@@ -16,41 +16,11 @@
     <a href="index.html" class="back-btn">&larr; Volver</a>
   </nav>
 
-  <main class="glass-container greeting-container">
-    <section class="greeting-form-panel">
-      <p class="admin-eyebrow">Mensaje para los novios</p>
-      <h1>Escribe un saludo</h1>
-      <p>Tu mensaje aparecera como una tarjeta elegante dentro del mismo carrusel de fotos.</p>
-
-      <form id="greetingForm" class="greeting-form">
-        <label class="field-label" for="greetingAuthor">Tu nombre</label>
-        <input id="greetingAuthor" name="author" class="text-input" type="text" maxlength="70" placeholder="Ej: Familia Perez" />
-
-        <label class="field-label" for="greetingMessage">Saludo</label>
-        <textarea id="greetingMessage" name="message" class="text-area" maxlength="420" rows="7" placeholder="Escribe aqui tu bendicion, deseo o recuerdo..."></textarea>
-
-        <fieldset class="theme-picker">
-          <legend>Fondo</legend>
-          <label><input type="radio" name="theme" value="rose" checked /> Rosas</label>
-          <label><input type="radio" name="theme" value="gold" /> Dorado</label>
-          <label><input type="radio" name="theme" value="garden" /> Jardin</label>
-        </fieldset>
-
-        <button class="select-btn greeting-submit" type="submit">Enviar saludo</button>
-      </form>
-
-      <div id="greetingStatus" class="status-box hidden"></div>
-    </section>
-
-    <aside class="greeting-preview" aria-label="Vista previa del saludo">
-      <div id="greetingPreviewCard" class="message-card message-theme-rose">
-        <span class="message-kicker">Con amor</span>
-        <p id="previewMessage" class="message-text">Que este nuevo camino este lleno de amor, fe y alegria.</p>
-        <p id="previewAuthor" class="message-author">- Tu nombre</p>
-      </div>
-    </aside>
+  <main class="glass-container greeting-container closed-panel">
+    <p class="admin-eyebrow">Saludos cerrados</p>
+    <h1>Gracias por todos los mensajes de amor.</h1>
+    <p>El casamiento ya termino y el envio de nuevos saludos esta cerrado. Los mensajes recibidos siguen disponibles junto con las fotos.</p>
+    <a href="recuerdos.html" class="select-btn closed-action">Ver recuerdos</a>
   </main>
-
-  <script src="saludos.js"></script>
 </body>
 </html>

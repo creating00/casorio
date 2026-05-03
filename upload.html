@@ -16,30 +16,11 @@
     <a href="index.html" class="back-btn">&larr; Volver</a>
   </nav>
   
-  <main class="glass-container upload-container">
-    <header class="upload-header">
-      <h2>Compartir Momentos</h2>
-      <p>Sube las fotos que tomaste durante nuestra boda. ¡Las veremos todas en la pantalla principal!</p>
-    </header>
-
-    <div class="drop-zone" id="dropZone">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      <p>Arrastra tus fotos aquí o haz clic para seleccionar</p>
-      <label for="photoInput" class="select-btn">Seleccionar Archivos</label>
-      <input id="photoInput" type="file" accept="image/*" multiple hidden />
-    </div>
-
-    <div id="uploadStatus" class="status-box hidden">
-      <p id="uploadStatusText"></p>
-      <div id="uploadProgress" class="progress-box hidden" aria-hidden="true">
-        <div class="progress-track">
-          <div id="uploadProgressBar" class="progress-fill"></div>
-        </div>
-        <p id="uploadProgressLabel" class="progress-label">0%</p>
-      </div>
-    </div>
+  <main class="glass-container upload-container closed-panel">
+    <p class="admin-eyebrow">Carga cerrada</p>
+    <h1>Gracias por compartir tantos recuerdos con nosotros.</h1>
+    <p>El casamiento ya termino y la carga de nuevas fotos esta cerrada. Todavia podes disfrutar las fotos y saludos guardados.</p>
+    <a href="recuerdos.html" class="select-btn closed-action">Ver recuerdos</a>
   </main>
-
-  <script src="upload.js"></script>
 </body>
 </html>
