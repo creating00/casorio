@@ -12,6 +12,7 @@ const TRANSITION_CLASSES = ['fx-fade', 'fx-zoom', 'fx-slide-left', 'fx-slide-up'
 let carouselItems = [];
 let currentIndex = 0;
 let timeoutId = null;
+let lastItemsSignature = null;
 
 function getRandomTransitionClass() {
   return TRANSITION_CLASSES[Math.floor(Math.random() * TRANSITION_CLASSES.length)];
@@ -25,6 +26,18 @@ function activateSlide(slide) {
   resetTransitionClasses(slide);
   slide.classList.add(getRandomTransitionClass());
   slide.classList.add('active');
+}
+
+function getItemKey(item) {
+  if (item.type === 'greeting') {
+    return [item.type, item.created, item.message, item.author, item.theme].join('|');
+  }
+
+  return [item.type, item.src].join('|');
+}
+
+function getItemsSignature(items) {
+  return items.map(getItemKey).join('||');
 }
 
 function renderCarousel() {
@@ -49,6 +62,8 @@ function renderCarousel() {
       const img = document.createElement('img');
       img.src = item.src;
       img.alt = `Boda Photo ${index + 1}`;
+      img.decoding = 'async';
+      img.loading = index === currentIndex ? 'eager' : 'lazy';
       slide.appendChild(img);
     }
 
@@ -139,14 +154,23 @@ async function fetchPhotos() {
     const incomingItems = Array.isArray(data.items)
       ? data.items
       : (Array.isArray(data.images) ? data.images.map(src => ({ type: 'image', src })) : []);
+    const incomingSignature = getItemsSignature(incomingItems);
+
+    if (incomingSignature === lastItemsSignature) {
+      return;
+    }
+
     const previousLength = carouselItems.length;
     carouselItems = incomingItems;
+    lastItemsSignature = incomingSignature;
 
     if (carouselItems.length === 0) {
       currentIndex = 0;
     } else if (carouselItems.length > previousLength) {
       // New photos or greetings arrived, jump to the first new one
       currentIndex = previousLength;
+    } else if (currentIndex >= carouselItems.length) {
+      currentIndex = 0;
     }
 
     renderCarousel();
