@@ -128,6 +128,14 @@ backToThanksBtn.addEventListener('click', () => {
 
 nextMemoryBtn.addEventListener('click', showNextMemory);
 prevMemoryBtn.addEventListener('click', showPreviousMemory);
+nextMemoryBtn.addEventListener('touchend', (event) => {
+  event.preventDefault();
+  showNextMemory();
+}, { passive: false });
+prevMemoryBtn.addEventListener('touchend', (event) => {
+  event.preventDefault();
+  showPreviousMemory();
+}, { passive: false });
 
 let touchStartX = null;
 
