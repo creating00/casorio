@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gracias - Gisela y Miguel</title>
+  <meta name="description" content="Portal para ver las fotos y saludos compartidos en la boda de Gisela y Miguel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="memories-body">
+  <div class="dynamic-bg"></div>
+
+  <main class="memories-shell">
+    <section id="memoriesIntro" class="memories-intro glass-container">
+      <p class="admin-eyebrow">Gisela y Miguel</p>
+      <h1>Gracias por compartir este momento tan hermoso e importante en nuestras vidas.</h1>
+      <p>Su presencia, sus fotos y sus saludos quedan guardados como recuerdos que vamos a atesorar siempre.</p>
+      <button id="showMemoriesBtn" class="select-btn memories-main-btn" type="button">Ver fotos</button>
+    </section>
+
+    <section id="memoriesGallery" class="memories-gallery hidden" aria-live="polite">
+      <button id="prevMemoryBtn" class="memory-arrow memory-arrow-prev" type="button" aria-label="Ver anterior">&lsaquo;</button>
+
+      <div class="memory-stage">
+        <div id="memoryEmpty" class="empty-message memory-empty hidden">
+          <div class="spinner"></div>
+          <p>Todavia no hay fotos ni saludos para mostrar.</p>
+        </div>
+        <div id="memorySlide" class="memory-slide"></div>
+      </div>
+
+      <button id="nextMemoryBtn" class="memory-arrow memory-arrow-next" type="button" aria-label="Ver siguiente">&rsaquo;</button>
+
+      <div class="memory-footer">
+        <button id="backToThanksBtn" class="glass-btn" type="button">Volver al mensaje</button>
+        <p id="memoryCounter" class="memory-counter"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="recuerdos.js"></script>
+</body>
+</html>

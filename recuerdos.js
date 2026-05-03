@@ -1,0 +1,138 @@
+const memoriesIntro = document.getElementById('memoriesIntro');
+const memoriesGallery = document.getElementById('memoriesGallery');
+const showMemoriesBtn = document.getElementById('showMemoriesBtn');
+const backToThanksBtn = document.getElementById('backToThanksBtn');
+const prevMemoryBtn = document.getElementById('prevMemoryBtn');
+const nextMemoryBtn = document.getElementById('nextMemoryBtn');
+const memorySlide = document.getElementById('memorySlide');
+const memoryEmpty = document.getElementById('memoryEmpty');
+const memoryCounter = document.getElementById('memoryCounter');
+
+let memoryItems = [];
+let currentMemoryIndex = 0;
+
+function createGreetingCard(item) {
+  const card = document.createElement('article');
+  card.className = `message-card message-theme-${item.theme || 'rose'}`;
+
+  const kicker = document.createElement('span');
+  kicker.className = 'message-kicker';
+  kicker.textContent = 'Saludo para los novios';
+
+  const message = document.createElement('p');
+  message.className = 'message-text';
+  message.textContent = item.message;
+
+  const author = document.createElement('p');
+  author.className = 'message-author';
+  author.textContent = item.author ? `- ${item.author}` : '- Con amor';
+
+  card.appendChild(kicker);
+  card.appendChild(message);
+  card.appendChild(author);
+
+  return card;
+}
+
+function renderCurrentMemory() {
+  memorySlide.innerHTML = '';
+
+  if (!memoryItems.length) {
+    memoryEmpty.classList.remove('hidden');
+    memoryCounter.textContent = '';
+    prevMemoryBtn.disabled = true;
+    nextMemoryBtn.disabled = true;
+    return;
+  }
+
+  memoryEmpty.classList.add('hidden');
+  prevMemoryBtn.disabled = memoryItems.length < 2;
+  nextMemoryBtn.disabled = memoryItems.length < 2;
+
+  const item = memoryItems[currentMemoryIndex];
+
+  if (item.type === 'greeting') {
+    memorySlide.className = 'memory-slide memory-slide-greeting';
+    memorySlide.appendChild(createGreetingCard(item));
+  } else {
+    const img = document.createElement('img');
+    img.className = 'memory-photo';
+    img.src = item.src;
+    img.alt = `Recuerdo ${currentMemoryIndex + 1}`;
+    img.decoding = 'async';
+
+    memorySlide.className = 'memory-slide memory-slide-photo';
+    memorySlide.appendChild(img);
+  }
+
+  memoryCounter.textContent = `${currentMemoryIndex + 1} / ${memoryItems.length}`;
+}
+
+function showNextMemory() {
+  if (memoryItems.length < 2) {
+    return;
+  }
+
+  currentMemoryIndex = (currentMemoryIndex + 1) % memoryItems.length;
+  renderCurrentMemory();
+}
+
+function showPreviousMemory() {
+  if (memoryItems.length < 2) {
+    return;
+  }
+
+  currentMemoryIndex = (currentMemoryIndex - 1 + memoryItems.length) % memoryItems.length;
+  renderCurrentMemory();
+}
+
+async function loadMemories() {
+  memoryEmpty.classList.remove('hidden');
+
+  try {
+    const response = await fetch('api.php', { cache: 'no-store' });
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      throw new Error(data.error || 'No se pudieron cargar los recuerdos');
+    }
+
+    memoryItems = Array.isArray(data.items)
+      ? data.items
+      : (Array.isArray(data.images) ? data.images.map(src => ({ type: 'image', src })) : []);
+
+    currentMemoryIndex = 0;
+    renderCurrentMemory();
+  } catch (error) {
+    memoryEmpty.classList.remove('hidden');
+    memoryEmpty.querySelector('p').textContent = error.message || 'No se pudieron cargar los recuerdos.';
+  }
+}
+
+showMemoriesBtn.addEventListener('click', () => {
+  memoriesIntro.classList.add('hidden');
+  memoriesGallery.classList.remove('hidden');
+  loadMemories();
+});
+
+backToThanksBtn.addEventListener('click', () => {
+  memoriesGallery.classList.add('hidden');
+  memoriesIntro.classList.remove('hidden');
+});
+
+nextMemoryBtn.addEventListener('click', showNextMemory);
+prevMemoryBtn.addEventListener('click', showPreviousMemory);
+
+document.addEventListener('keydown', (event) => {
+  if (memoriesGallery.classList.contains('hidden')) {
+    return;
+  }
+
+  if (event.key === 'ArrowRight') {
+    showNextMemory();
+  }
+
+  if (event.key === 'ArrowLeft') {
+    showPreviousMemory();
+  }
+});
