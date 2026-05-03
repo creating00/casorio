@@ -7,10 +7,13 @@ const nextMemoryBtn = document.getElementById('nextMemoryBtn');
 const memorySlide = document.getElementById('memorySlide');
 const memoryEmpty = document.getElementById('memoryEmpty');
 const memoryCounter = document.getElementById('memoryCounter');
+const memoriesMusic = document.getElementById('memoriesMusic');
+const toggleMemoriesMusicBtn = document.getElementById('toggleMemoriesMusicBtn');
 
 let memoryItems = [];
 let currentMemoryIndex = 0;
 let touchStartX = null;
+let musicEnabled = true;
 
 function showMemoryMessage(message) {
   memoryEmpty.classList.remove('hidden');
@@ -21,6 +24,20 @@ function showMemoryMessage(message) {
 function hideMemoryMessage() {
   memoryEmpty.classList.add('hidden');
   memoryEmpty.style.display = 'none';
+}
+
+function playMemoriesMusic() {
+  if (!memoriesMusic || !musicEnabled) return;
+
+  memoriesMusic.volume = 0.55;
+  memoriesMusic.play().catch(() => {
+    // Mobile browsers may still block audio in some low-power or muted modes.
+  });
+}
+
+function updateMusicButton() {
+  if (!toggleMemoriesMusicBtn) return;
+  toggleMemoriesMusicBtn.textContent = musicEnabled ? 'Musica: On' : 'Musica: Off';
 }
 
 function createGreetingCard(item) {
@@ -120,8 +137,26 @@ showMemoriesBtn.addEventListener('click', () => {
   memoriesIntro.style.display = 'none';
   memoriesGallery.classList.remove('hidden');
   memoriesGallery.style.display = 'block';
+  playMemoriesMusic();
   loadMemories();
 });
+
+toggleMemoriesMusicBtn.addEventListener('click', () => {
+  musicEnabled = !musicEnabled;
+
+  if (!musicEnabled) {
+    memoriesMusic.pause();
+  } else {
+    playMemoriesMusic();
+  }
+
+  updateMusicButton();
+});
+
+document.addEventListener('DOMContentLoaded', playMemoriesMusic);
+document.addEventListener('click', playMemoriesMusic, { once: true });
+document.addEventListener('touchstart', playMemoriesMusic, { once: true, passive: true });
+updateMusicButton();
 
 backToThanksBtn.addEventListener('click', () => {
   memoriesGallery.classList.add('hidden');
