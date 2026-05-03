@@ -1260,3 +1260,146 @@ h1, h2, h3 {
     font-size: clamp(0.95rem, 4vw, 1.2rem);
   }
 }
+
+/* Hard override for the manual memories carousel: same layout on desktop and mobile. */
+.memories-gallery:not(.hidden) {
+  position: fixed !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  background: radial-gradient(circle at 50% 20%, rgba(131, 24, 67, 0.28), rgba(0, 0, 0, 0.88) 62%) !important;
+}
+
+.memories-gallery:not(.hidden) .memory-stage {
+  position: fixed !important;
+  inset: 1rem 4.5rem calc(5.75rem + env(safe-area-inset-bottom)) 4.5rem !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 1 !important;
+}
+
+.memories-gallery:not(.hidden) .memory-slide {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+.memories-gallery:not(.hidden) .memory-photo {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.memories-gallery:not(.hidden) .memory-arrow {
+  position: fixed !important;
+  top: 50% !important;
+  z-index: 50 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 3.25rem !important;
+  min-width: 3.25rem !important;
+  max-width: 3.25rem !important;
+  height: 3.25rem !important;
+  min-height: 3.25rem !important;
+  max-height: 3.25rem !important;
+  margin: 0 !important;
+  padding: 0 0 0.25rem !important;
+  border-radius: 50% !important;
+  line-height: 1 !important;
+  font-size: 2.75rem !important;
+  transform: translateY(-50%) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  touch-action: manipulation !important;
+}
+
+.memories-gallery:not(.hidden) .memory-arrow-prev {
+  left: 0.75rem !important;
+  right: auto !important;
+}
+
+.memories-gallery:not(.hidden) .memory-arrow-next {
+  right: 0.75rem !important;
+  left: auto !important;
+}
+
+.memories-gallery:not(.hidden) .memory-footer {
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(1rem + env(safe-area-inset-bottom)) !important;
+  z-index: 60 !important;
+  width: min(92vw, 520px) !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.75rem !important;
+  border-radius: 18px !important;
+}
+
+.memories-gallery:not(.hidden) .memory-footer .glass-btn {
+  flex: 1 !important;
+  justify-content: center !important;
+  min-height: 2.7rem !important;
+}
+
+.memories-gallery:not(.hidden) .memory-counter {
+  flex: 0 0 auto !important;
+  min-width: 4rem !important;
+  margin: 0 !important;
+  text-align: center !important;
+}
+
+.memories-gallery:not(.hidden) .memory-slide-greeting .message-card {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  max-height: none !important;
+}
+
+@media (max-width: 720px) {
+  .memories-gallery:not(.hidden) .memory-stage {
+    inset: 0.75rem 3.95rem calc(5.6rem + env(safe-area-inset-bottom)) 3.95rem !important;
+  }
+
+  .memories-gallery:not(.hidden) .memory-arrow {
+    width: 3rem !important;
+    min-width: 3rem !important;
+    max-width: 3rem !important;
+    height: 3rem !important;
+    min-height: 3rem !important;
+    max-height: 3rem !important;
+    font-size: 2.5rem !important;
+  }
+
+  .memories-gallery:not(.hidden) .memory-arrow-prev {
+    left: 0.45rem !important;
+  }
+
+  .memories-gallery:not(.hidden) .memory-arrow-next {
+    right: 0.45rem !important;
+  }
+
+  .memories-gallery:not(.hidden) .memory-footer {
+    bottom: calc(0.7rem + env(safe-area-inset-bottom)) !important;
+    width: calc(100vw - 1.5rem) !important;
+  }
+
+  .memories-gallery:not(.hidden) .message-card {
+    padding: 1.15rem !important;
+    border-radius: 22px !important;
+  }
+}
