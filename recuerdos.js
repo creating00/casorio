@@ -129,6 +129,32 @@ backToThanksBtn.addEventListener('click', () => {
 nextMemoryBtn.addEventListener('click', showNextMemory);
 prevMemoryBtn.addEventListener('click', showPreviousMemory);
 
+let touchStartX = null;
+
+memorySlide.addEventListener('touchstart', (event) => {
+  touchStartX = event.changedTouches[0].clientX;
+}, { passive: true });
+
+memorySlide.addEventListener('touchend', (event) => {
+  if (touchStartX === null) {
+    return;
+  }
+
+  const touchEndX = event.changedTouches[0].clientX;
+  const distance = touchEndX - touchStartX;
+  touchStartX = null;
+
+  if (Math.abs(distance) < 45) {
+    return;
+  }
+
+  if (distance < 0) {
+    showNextMemory();
+  } else {
+    showPreviousMemory();
+  }
+}, { passive: true });
+
 document.addEventListener('keydown', (event) => {
   if (memoriesGallery.classList.contains('hidden')) {
     return;
