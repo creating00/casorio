@@ -2,13 +2,218 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Gracias - Gisela y Miguel</title>
   <meta name="description" content="Portal para ver las fotos y saludos compartidos en la boda de Gisela y Miguel." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    html,
+    body.memories-body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .memories-gallery:not(.hidden) {
+      position: fixed !important;
+      inset: 0 !important;
+      display: block !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      background: radial-gradient(circle at 50% 18%, rgba(131, 24, 67, 0.36), rgba(5, 3, 12, 0.96) 64%) !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-stage {
+      position: fixed !important;
+      top: calc(0.75rem + env(safe-area-inset-top)) !important;
+      left: 4.25rem !important;
+      right: 4.25rem !important;
+      bottom: calc(5.65rem + env(safe-area-inset-bottom)) !important;
+      width: auto !important;
+      height: auto !important;
+      min-height: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 1 !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-slide {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      touch-action: pan-y !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-photo {
+      display: block !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      border-radius: 18px !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-slide-greeting .message-card {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      max-width: none !important;
+      max-height: none !important;
+      padding: clamp(1.25rem, 4vw, 3rem) !important;
+      border-radius: 26px !important;
+    }
+
+    .memories-gallery:not(.hidden) .message-card::after {
+      inset: 0.75rem !important;
+      border-radius: 18px !important;
+    }
+
+    .memories-gallery:not(.hidden) .message-text {
+      font-size: clamp(1.65rem, 6vw, 4.6rem) !important;
+      line-height: 1.08 !important;
+    }
+
+    .memories-gallery:not(.hidden) .message-kicker {
+      letter-spacing: 0.16em !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-arrow {
+      position: fixed !important;
+      top: 50% !important;
+      z-index: 30 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 3.15rem !important;
+      height: 3.15rem !important;
+      min-width: 3.15rem !important;
+      min-height: 3.15rem !important;
+      max-width: 3.15rem !important;
+      max-height: 3.15rem !important;
+      margin: 0 !important;
+      padding: 0 0 0.22rem !important;
+      border-radius: 999px !important;
+      line-height: 1 !important;
+      font-size: 2.6rem !important;
+      transform: translateY(-50%) !important;
+      appearance: none !important;
+      -webkit-appearance: none !important;
+      touch-action: manipulation !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-arrow-prev {
+      left: 0.65rem !important;
+      right: auto !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-arrow-next {
+      right: 0.65rem !important;
+      left: auto !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-footer {
+      position: fixed !important;
+      left: 50% !important;
+      right: auto !important;
+      bottom: calc(0.8rem + env(safe-area-inset-bottom)) !important;
+      z-index: 40 !important;
+      width: min(92vw, 520px) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 0.75rem !important;
+      padding: 0.55rem !important;
+      border-radius: 18px !important;
+      transform: translateX(-50%) !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-footer .glass-btn {
+      flex: 1 !important;
+      justify-content: center !important;
+      min-height: 2.65rem !important;
+    }
+
+    .memories-gallery:not(.hidden) .memory-counter {
+      flex: 0 0 auto !important;
+      min-width: 4rem !important;
+      margin: 0 !important;
+      text-align: center !important;
+    }
+
+    @media (max-width: 720px) {
+      .memories-shell {
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        padding: 0.75rem !important;
+      }
+
+      .memories-intro.glass-container {
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 2rem 1.15rem !important;
+      }
+
+      .memories-intro h1 {
+        font-size: clamp(2.2rem, 10.5vw, 3.35rem) !important;
+      }
+
+      .memories-gallery:not(.hidden) .memory-stage {
+        top: calc(0.6rem + env(safe-area-inset-top)) !important;
+        left: 3.65rem !important;
+        right: 3.65rem !important;
+        bottom: calc(5.45rem + env(safe-area-inset-bottom)) !important;
+      }
+
+      .memories-gallery:not(.hidden) .memory-arrow {
+        width: 2.9rem !important;
+        height: 2.9rem !important;
+        min-width: 2.9rem !important;
+        min-height: 2.9rem !important;
+        max-width: 2.9rem !important;
+        max-height: 2.9rem !important;
+        font-size: 2.35rem !important;
+      }
+
+      .memories-gallery:not(.hidden) .memory-arrow-prev {
+        left: 0.4rem !important;
+      }
+
+      .memories-gallery:not(.hidden) .memory-arrow-next {
+        right: 0.4rem !important;
+      }
+
+      .memories-gallery:not(.hidden) .memory-footer {
+        width: calc(100vw - 1.25rem) !important;
+        bottom: calc(0.6rem + env(safe-area-inset-bottom)) !important;
+      }
+
+      .memories-gallery:not(.hidden) .memory-slide-greeting .message-card {
+        padding: 1.05rem !important;
+        border-radius: 22px !important;
+      }
+
+      .memories-gallery:not(.hidden) .message-text {
+        font-size: clamp(1.45rem, 7.4vw, 2.45rem) !important;
+      }
+
+      .memories-gallery:not(.hidden) .message-author {
+        font-size: clamp(0.9rem, 4vw, 1.15rem) !important;
+      }
+    }
+  </style>
 </head>
 <body class="memories-body">
   <div class="dynamic-bg"></div>
@@ -41,6 +246,6 @@
     </section>
   </main>
 
-  <script src="recuerdos.js"></script>
+  <script src="recuerdos-mobile.js"></script>
 </body>
 </html>
