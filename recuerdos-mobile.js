@@ -12,6 +12,17 @@ let memoryItems = [];
 let currentMemoryIndex = 0;
 let touchStartX = null;
 
+function showMemoryMessage(message) {
+  memoryEmpty.classList.remove('hidden');
+  memoryEmpty.style.display = 'flex';
+  memoryEmpty.querySelector('p').textContent = message;
+}
+
+function hideMemoryMessage() {
+  memoryEmpty.classList.add('hidden');
+  memoryEmpty.style.display = 'none';
+}
+
 function createGreetingCard(item) {
   const card = document.createElement('article');
   card.className = `message-card message-theme-${item.theme || 'rose'}`;
@@ -39,14 +50,14 @@ function renderCurrentMemory() {
   memorySlide.innerHTML = '';
 
   if (!memoryItems.length) {
-    memoryEmpty.classList.remove('hidden');
+    showMemoryMessage('Todavia no hay fotos ni saludos para mostrar.');
     memoryCounter.textContent = '';
     prevMemoryBtn.disabled = true;
     nextMemoryBtn.disabled = true;
     return;
   }
 
-  memoryEmpty.classList.add('hidden');
+  hideMemoryMessage();
   prevMemoryBtn.disabled = memoryItems.length < 2;
   nextMemoryBtn.disabled = memoryItems.length < 2;
 
@@ -83,8 +94,7 @@ function showPreviousMemory() {
 
 async function loadMemories() {
   memorySlide.innerHTML = '';
-  memoryEmpty.classList.remove('hidden');
-  memoryEmpty.querySelector('p').textContent = 'Cargando fotos y saludos...';
+  showMemoryMessage('Cargando fotos y saludos...');
 
   try {
     const response = await fetch('api.php', { cache: 'no-store' });
@@ -101,8 +111,7 @@ async function loadMemories() {
     currentMemoryIndex = 0;
     renderCurrentMemory();
   } catch (error) {
-    memoryEmpty.classList.remove('hidden');
-    memoryEmpty.querySelector('p').textContent = error.message || 'No se pudieron cargar los recuerdos.';
+    showMemoryMessage(error.message || 'No se pudieron cargar los recuerdos.');
   }
 }
 
