@@ -7,6 +7,7 @@ const nextMemoryBtn = document.getElementById('nextMemoryBtn');
 const memorySlide = document.getElementById('memorySlide');
 const memoryEmpty = document.getElementById('memoryEmpty');
 const memoryCounter = document.getElementById('memoryCounter');
+const mobileMedia = window.matchMedia('(max-width: 720px)');
 
 let memoryItems = [];
 let currentMemoryIndex = 0;
@@ -115,7 +116,7 @@ showMemoriesBtn.addEventListener('click', () => {
   memoriesIntro.classList.add('hidden');
   memoriesIntro.style.display = 'none';
   memoriesGallery.classList.remove('hidden');
-  memoriesGallery.style.display = 'grid';
+  memoriesGallery.style.display = mobileMedia.matches ? 'block' : 'grid';
   loadMemories();
 });
 
